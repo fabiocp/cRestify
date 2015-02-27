@@ -1,0 +1,5 @@
+/packages/NUnit.2.6.4/lib/*.dll
+*.pdb
+*.dll
+*.cache
+*.suo
