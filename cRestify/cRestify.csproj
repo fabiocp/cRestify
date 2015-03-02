@@ -49,6 +49,7 @@
     <Compile Include="Request.cs" />
     <Compile Include="Response.cs" />
     <Compile Include="Restify.cs" />
+    <Compile Include="Router.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
