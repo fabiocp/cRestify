@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace cRestify {
 
   public static class It {
-    
+
     public static TValue IsAny<TValue>() {
       return default(TValue);
     }
@@ -23,11 +23,11 @@ namespace cRestify {
     where TMock : class {
   }
   internal static class PexProtector {
-    public static void Invoke( Action action ) {
+    public static void Invoke(Action action) {
       action();
     }
 
-    public static T Invoke<T>( Func<T> function ) {
+    public static T Invoke<T>(Func<T> function) {
       return function();
     }
   }
@@ -36,13 +36,13 @@ namespace cRestify {
 
     private readonly IAppBuilder app;
 
-    public Server( IAppBuilder app ) {
+    public Server(IAppBuilder app) {
       this.app = app;
     }
 
-    public void Post( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) {
+    public void Post(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
       app.Run(context => {
-        if (context.Request.Path.Value == path) {
+        if(context.Request.Path.Value == path) {
           context.Request.ContentType = "text/plain";
           return handler.Invoke(context.Request, context.Response);
         }
@@ -51,9 +51,9 @@ namespace cRestify {
       });
     }
 
-    public void Put( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) {
+    public void Put(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
       app.Run(context => {
-        if (context.Request.Path.Value == path) {
+        if(context.Request.Path.Value == path) {
           context.Request.ContentType = "text/plain";
           return handler.Invoke(context.Request, context.Response);
         }
@@ -62,9 +62,9 @@ namespace cRestify {
       });
     }
 
-    public void Del( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) {
+    public void Del(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
       app.Run(context => {
-        if (context.Request.Path.Value == path) {
+        if(context.Request.Path.Value == path) {
           context.Request.ContentType = "text/plain";
           return handler.Invoke(context.Request, context.Response);
         }
@@ -85,9 +85,9 @@ namespace cRestify {
      }*/
 
 
-    public void Get<T>( string path, Action<T> handler ) where T : class {
+    public void Get<T>(string path, Action<T> handler) where T : class {
       app.Run(context => {
-        if (context.Request.Path.Value == path) {
+        if(context.Request.Path.Value == path) {
           context.Request.ContentType = "text/plain";
           handler.ToString();
           return context.Response.WriteAsync("Hello World");
@@ -97,13 +97,13 @@ namespace cRestify {
       });
 
 
-    /*  return PexProtector.Invoke(() => {
-                return SetupSetImpl<T, SetterMethodCall<T, TProperty>>(mock, setterExpression, ( m, expr, method, value ) => {
-                  var call = new SetterMethodCall<T, TProperty>(m, condition, expr, method, value[0]);
-                  m.Interceptor.AddCall(call, SetupKind.PropertySet);
-                  return call;
-                });
-              });*/
+  /*  return PexProtector.Invoke(() => {
+        return SetupSetImpl<T, SetterMethodCall<T, TProperty>>(mock, setterExpression, ( m, expr, method, value ) => {
+          var call = new SetterMethodCall<T, TProperty>(m, condition, expr, method, value[0]);
+          m.Interceptor.AddCall(call, SetupKind.PropertySet);
+          return call;
+        });
+      });*/
     }
 
 
