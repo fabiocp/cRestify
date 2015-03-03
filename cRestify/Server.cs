@@ -22,12 +22,13 @@ namespace cRestify {
   public class SetterMethodCall<TMock> : ISetupSetter<TMock>
     where TMock : class {
   }
+
   internal static class PexProtector {
-    public static void Invoke(Action action) {
+    public static void Invoke( Action action ) {
       action();
     }
 
-    public static T Invoke<T>(Func<T> function) {
+    public static T Invoke<T>( Func<T> function ) {
       return function();
     }
   }
@@ -38,46 +39,46 @@ namespace cRestify {
 
     private Router route;
 
-    public Server(IAppBuilder app) {
+    public Server( IAppBuilder app ) {
       this.app = app;
       this.route = new Router();
     }
 
-    private void handle(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    private void Route(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    private void run(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    private void setupRequest(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-
-
-    public void Del(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
+    private void handle( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    private void Route( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    private void run( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    private void setupRequest( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    /*
+        public void Del(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
         }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
 
-    public void Get(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+        public void Get(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
+        }*/
+
+    public void Get<T>( string path, Action<T> handler ) where T : class {
       app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
-        }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
-    public void Get<T>(string path, Action<T> handler) where T : class {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
+        if (context.Request.Path.Value == path) {
           context.Request.ContentType = "text/plain";
           handler.ToString();
           return context.Response.WriteAsync("Hello World");
         }
-        //context.Response.StatusCode = 404;
+        context.Response.StatusCode = 404;
         return Task.Delay(0);
       });
 
@@ -90,82 +91,73 @@ namespace cRestify {
             });
           });*/
     }
-
-    public void head(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
+    /*
+        public void head(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
         }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
 
-    public void opts(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          handler.ToString();
-          return context.Response.WriteAsync("Hello World");
+        public void opts(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              handler.ToString();
+              return context.Response.WriteAsync("Hello World");
+            }
+            //context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
+
+    */
+
+    /*
+        public void post(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
         }
-        //context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
 
-
-      /*  return PexProtector.Invoke(() => {
-                  return SetupSetImpl<T, SetterMethodCall<T, TProperty>>(mock, setterExpression, ( m, expr, method, value ) => {
-                    var call = new SetterMethodCall<T, TProperty>(m, condition, expr, method, value[0]);
-                    m.Interceptor.AddCall(call, SetupKind.PropertySet);
-                    return call;
-                  });
-                });*/
-    }
-
-    public void post(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
+        public void put(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
         }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
 
-    public void put(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
+        public void patch(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
+          app.Run(context => {
+            if(context.Request.Path.Value == path) {
+              context.Request.ContentType = "text/plain";
+              return handler.Invoke(context.Request, context.Response);
+            }
+            context.Response.StatusCode = 404;
+            return Task.Delay(0);
+          });
         }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
-
-    public void patch(string path, Func<IOwinRequest, IOwinResponse, Task> handler) {
-      app.Run(context => {
-        if(context.Request.Path.Value == path) {
-          context.Request.ContentType = "text/plain";
-          return handler.Invoke(context.Request, context.Response);
-        }
-        context.Response.StatusCode = 404;
-        return Task.Delay(0);
-      });
-    }
-
-    public void address(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void listen(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void close(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void param(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void rm(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void use(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void pre(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-    public void toString(string path, Func<IOwinRequest, IOwinResponse, Task> handler) { }
-
-
+    */
+    public void address( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void listen( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void close( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void param( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void rm( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void use( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void pre( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
+    public void toString( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
 
 
   }
