@@ -18,3 +18,7 @@ server.listen(8080, env=> {
   console.log('%s listening at %s', server.name, server.url);
 });
 
+#Todo
+
+
+http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
