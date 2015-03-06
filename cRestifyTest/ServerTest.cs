@@ -9,9 +9,17 @@ using Should;
 
 namespace cRestifyTest {
 
+    class Item {
+        public int Numero { get; set; }
+    }
+
   class Todo {
     public string HelloWord() {
       return "Hello World";
+    }
+
+    public Item GetItem() {
+        return new Item { Numero = 1 };
     }
   }
 
@@ -28,9 +36,27 @@ namespace cRestifyTest {
       });
 
       var client = new HttpClient();
-      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("Hello World");
+      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("\"Hello World\"");
 
     }
+
+    [Test]
+    public void TestMethodItem()
+    {
+
+        WebApp.Start(new StartOptions { Port = 8080 }, startup =>
+        {
+            var restify = new Restify(startup);
+            var server = restify.CreateServer();
+            server.Get<Todo, Item>("/obterItem", env => env.GetItem());
+        });
+
+        var client = new HttpClient();
+        var res = client.GetStringAsync("http://localhost:8080/obterItem").Result;
+        res.ShouldEqual(@"{""Numero"":1}");
+
+    }
+
 
     [Test]
     public void TestMethod2() {
@@ -42,11 +68,30 @@ namespace cRestifyTest {
       });
 
       var client = new HttpClient();
-      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("Hello World");
+      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("");
 
     }
 /*
     [Test]
+    public void TestMethod3() {
+
+      WebApp.Start(new StartOptions { Port = 8080 }, startup => {
+        var restify = new Restify(startup);
+        var server = restify.CreateServer();
+        server.Resource<Todo>("/todo", env => {
+          env.Get("/list");
+          env.Get("/show/:id");
+          env.Get("/new");
+        });
+      });
+
+      var client = new HttpClient();
+      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("Hello World");
+
+    }*/
+
+     
+    /*[Test]
     public void TestMethod3() {
 
       WebApp.Start(new StartOptions { Port = 8080 }, startup => {
