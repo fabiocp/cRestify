@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Fasterflect;
+using System.IO;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace cRestify {
 
@@ -49,9 +51,12 @@ namespace cRestify {
 
     private Router route;
 
+    private IJsonSerializer jsonSerializer;
+
     public Server( IAppBuilder app ) {
       this.app = app;
       this.route = new Router();
+      this.jsonSerializer = new JsonNetSerializer();
     }
 
     private void handle( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
@@ -129,7 +134,6 @@ namespace cRestify {
    });
  }
 */
-
     public void Get<T, TResult>( string path, Expression<Func<T, TResult>> expression ) where T : class {
       app.Run(context => {
         //     if (context.Request.Path.Value == path) {
@@ -138,8 +142,12 @@ namespace cRestify {
         var obj =  (T)CreateInstance(typeof(T));
         //handler(obj);
         // var setterExpressionParameters = handler.GetMethodInfo();
-        var res = obj.CallMethod("HelloWord");
-        var aaa = expression.Name;
+        //var res = obj.CallMethod("HelloWord");
+          
+        var res = expression.Compile()(obj);
+
+        //var aaa = expression.Body.GetPropertyValue("Method").GetPropertyValue("Name").ToString();
+
         // var methodInfo = obj.UnwrapIfWrapped().GetType().Method("Walk", Flags.InstanceAnyVisibility);
         //methodInfo.Call(obj);
         //handler.Invoke(obj);
@@ -152,7 +160,9 @@ namespace cRestify {
         });*/
         //return context.Response.WriteAsync(res);
         //}
-        context.Response.StatusCode = 404;
+        //context.Response.StatusCode = 404;
+        context.Response.StatusCode = 200;
+        context.Response.WriteAsync(jsonSerializer.Serialize(res));
         return Task.Delay(0);
       });
     }
