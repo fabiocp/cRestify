@@ -51,9 +51,12 @@ namespace cRestify {
 
     private Router route;
 
+    private IJsonSerializer jsonSerializer;
+
     public Server( IAppBuilder app ) {
       this.app = app;
       this.route = new Router();
+      this.jsonSerializer = new JsonNetSerializer();
     }
 
     private void handle( string path, Func<IOwinRequest, IOwinResponse, Task> handler ) { }
@@ -131,16 +134,6 @@ namespace cRestify {
    });
  }
 */
-    private string ToJson<T>(T obj) {
-        MemoryStream stream1 = new MemoryStream();
-        var ser = new DataContractJsonSerializer(typeof(T));
-        ser.WriteObject(stream1, obj);
-        stream1.Position = 0;
-        StreamReader sr = new StreamReader(stream1);
-        return sr.ReadToEnd();
-    }
-
-
     public void Get<T, TResult>( string path, Expression<Func<T, TResult>> expression ) where T : class {
       app.Run(context => {
         //     if (context.Request.Path.Value == path) {
@@ -169,7 +162,7 @@ namespace cRestify {
         //}
         //context.Response.StatusCode = 404;
         context.Response.StatusCode = 200;
-        context.Response.WriteAsync(ToJson<TResult>(res));
+        context.Response.WriteAsync(jsonSerializer.Serialize(res));
         return Task.Delay(0);
       });
     }

@@ -53,7 +53,7 @@ namespace cRestifyTest {
 
         var client = new HttpClient();
         var res = client.GetStringAsync("http://localhost:8080/obterItem").Result;
-        res.ShouldEqual("\"Hello World\"");
+        res.ShouldEqual(@"{""Numero"":1}");
 
     }
 
@@ -68,7 +68,7 @@ namespace cRestifyTest {
       });
 
       var client = new HttpClient();
-      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("Hello World");
+      client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("");
 
     }
 /*
