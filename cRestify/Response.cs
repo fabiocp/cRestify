@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 
 namespace cRestify {
 
-  public static class Response {
+  public class Response {
 
-    public static IHeaderDictionary cache(this IOwinResponse response) {
+    private readonly IOwinResponse response;
+
+
+    public Response(IOwinResponse response) {
+      this.response = response;
+    }
+
+    public IHeaderDictionary cache(string[] options) {
       /* if (typeof(type) !== 'string') {
          options = type;
          type = 'public';
@@ -19,33 +26,24 @@ namespace cRestify {
          assert.number(options.maxAge, 'options.maxAge');
          type += ', max-age=' + options.maxAge;
        }
-
        return (this.header('Cache-Control', type));*/
-      throw new NotImplementedException();
+      response.Headers.Add("Cache-Control", options);
+      return response.Headers;
+
     }
-    public static IOwinResponse charSet(this IOwinResponse response) {
-      /*
-      assert.string(type, 'charset');
+    public string CharSet { get; set; }
 
-      this._charSet = type;
-
-      return (this);*/
-      throw new NotImplementedException();
-    }
-    public static IOwinResponse format(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse get(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse getHeaders(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse headers(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse header(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse json(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse link(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse send(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse set(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse status(this IOwinResponse response) { throw new NotImplementedException(); }
-    public static IOwinResponse writeHead(this IOwinResponse response) { throw new NotImplementedException(); }
-
-
-
+    public IOwinResponse format(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse get(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse getHeaders(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse headers(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse header(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse json(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse link(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse send(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse set(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse status(IOwinResponse response) { throw new NotImplementedException(); }
+    public IOwinResponse writeHead(IOwinResponse response) { throw new NotImplementedException(); }
 
   }
 }
