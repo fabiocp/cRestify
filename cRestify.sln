@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cRestify", "cRestify\cResti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cRestifyTest", "cRestifyTest\cRestifyTest.csproj", "{FAF37181-33B5-4482-B3F7-DC353C58FA9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevStore.Tdc.Api", "DevStore.Tdc\DevStore.Tdc.Api\DevStore.Tdc.Api.csproj", "{90517766-B35F-4C96-B3C2-22222403F22D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FAF37181-33B5-4482-B3F7-DC353C58FA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAF37181-33B5-4482-B3F7-DC353C58FA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAF37181-33B5-4482-B3F7-DC353C58FA9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90517766-B35F-4C96-B3C2-22222403F22D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90517766-B35F-4C96-B3C2-22222403F22D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90517766-B35F-4C96-B3C2-22222403F22D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90517766-B35F-4C96-B3C2-22222403F22D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
