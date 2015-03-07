@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using cRestify;
 using Microsoft.Owin;
@@ -9,9 +10,9 @@ using Should;
 
 namespace cRestifyTest {
 
-   public  class Item {
-        public int Numero { get; set; }
-    }
+  public class Item {
+    public int Numero { get; set; }
+  }
 
   public class Todo {
     public string HelloWord() {
@@ -19,25 +20,23 @@ namespace cRestifyTest {
     }
 
     public Item[] list() {
-        return new Item[] { new Item { Numero = 1 }, new Item { Numero = 2 } };
+      return new Item[] { new Item { Numero = 1 }, new Item { Numero = 2 } };
     }
 
-    public Item show(int id)
-    {
-        return new Item { Numero = id };
+    public Item show(int id) {
+      return new Item { Numero = id };
     }
 
-    public void novo(int id, string name) { 
-        //do alguma coisa
+    public void novo(int id, string name) {
+      //do alguma coisa
     }
 
-      /*   env.Get("/list");
-          env.Get("/show/:id");
-          env.Get("/new");*/
+    /*   env.Get("/list");
+        env.Get("/show/:id");
+        env.Get("/new");*/
 
-    public Item GetItem()
-    {
-        return new Item { Numero = 1 };
+    public Item GetItem() {
+      return new Item { Numero = 1 };
     }
   }
 
@@ -65,19 +64,17 @@ namespace cRestifyTest {
     }
 
     [Test]
-    public void TestMethodItem()
-    {
+    public void TestMethodItem() {
 
-        WebApp.Start(new StartOptions { Port = 8080 }, startup =>
-        {
-            var restify = new Restify(startup);
-            var server = restify.CreateServer();
-            server.Get<Todo, Item>("/obterItem", env => env.GetItem());
-        });
+      WebApp.Start(new StartOptions { Port = 8080 }, startup => {
+        var restify = new Restify(startup);
+        var server = restify.CreateServer();
+        server.Get<Todo, Item>("/obterItem", env => env.GetItem());
+      });
 
-        var client = new HttpClient();
-        var res = client.GetStringAsync("http://localhost:8080/obterItem").Result;
-        res.ShouldEqual(@"{""Numero"":1}");
+      var client = new HttpClient();
+      var res = client.GetStringAsync("http://localhost:8080/obterItem").Result;
+      res.ShouldEqual(@"{""Numero"":1}");
 
     }
 
@@ -97,21 +94,18 @@ namespace cRestifyTest {
     }
 
     [Test]
-    public void TestResource()
-    {
+    public void TestResource() {
 
-        WebApp.Start(new StartOptions { Port = 8080 }, startup =>
-        {
-            var restify = new Restify(startup);
-            var server = restify.CreateServer();
-            server.Resource<Todo>("/todoResource", env =>
-            {
-                env.Get("/HelloWord");
-            });
+      WebApp.Start(new StartOptions { Port = 8080 }, startup => {
+        var restify = new Restify(startup);
+        var server = restify.CreateServer();
+        server.Resource<Todo>("/todoResource", env => {
+          env.Get("/HelloWord");
         });
+      });
 
-        var client = new HttpClient();
-        client.GetStringAsync("http://localhost:8080/todoResource/helloWord").Result.ShouldEqual("\"Hello World\"");
+      var client = new HttpClient();
+      client.GetStringAsync("http://localhost:8080/todoResource/helloWord").Result.ShouldEqual("\"Hello World\"");
     }
 
 
@@ -137,7 +131,7 @@ namespace cRestifyTest {
 
     }
 
-     
+
     /*[Test]
     public void TestMethod3() {
 

@@ -5,13 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cRestify
-{
-    public class JsonNetSerializer : IJsonSerializer
-    {
-        public string Serialize(object obj)
-        {
-            return JsonConvert.SerializeObject(obj);
-        }
+namespace cRestify {
+
+  public class JsonNetSerializer : IJsonSerializer {
+    public string Serialize(object obj) {
+      return JsonConvert.SerializeObject(obj);
     }
+  }
 }

@@ -12,35 +12,32 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 
-namespace cRestify
-{
-    public class Environment
-    {
-        private UrlParser urlParser;
+namespace cRestify {
 
-        public string RootPath { get; private set; }
+  public class Environment {
 
-        private IDictionary<string, string>  Urls;
+    private readonly UrlParser urlParser;
 
-        public Environment(string rootPath)
-        {
-            this.RootPath = rootPath;
-            this.Urls = new Dictionary<string, string>();
-            this.urlParser = new UrlParser();
-        }
+    public string RootPath { get; private set; }
 
-        public void Get(string url) {
-            Urls.Add(url, "GET");
-        }
+    private IDictionary<string, string> Urls;
 
-        public bool AnyUrl(string methodName, string method, out string route) {
-            route = null;
-            if (Urls.Any(k => urlParser.GetResourceName(k.Key) == methodName && k.Value == method))
-            {
-                route = Urls.First(k => urlParser.GetResourceName(k.Key) == methodName && k.Value == method).Key;
-                return true;
-            }
-            return false;
-        }
+    public Environment(string rootPath) {
+      this.RootPath = rootPath;
+      this.Urls = new Dictionary<string, string>();
+      this.urlParser = new UrlParser();
     }
+
+    public void Get(string url) {
+      Urls.Add(url, "GET");
+    }
+
+    public bool AnyUrl(string methodName, string method, out string route) {
+      route = null;
+      if(!Urls.Any(k => urlParser.GetResourceName(k.Key) == methodName && k.Value == method))
+        return false;
+      route = Urls.First(k => urlParser.GetResourceName(k.Key) == methodName && k.Value == method).Key;
+      return true;
+    }
+  }
 }

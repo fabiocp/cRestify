@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace cRestify {
 
-  public interface IJsonSerializer {
-    string Serialize(object obj);
+  public static class It {
+
+    public static TValue IsAny<TValue>() {
+      return default(TValue);
+    }
   }
 }
