@@ -131,6 +131,49 @@ namespace cRestifyTest {
 
     }
 
+public void TestRoute()
+    {
+        WebApp.Start(new StartOptions { Port = 8080 }, startup =>
+        {
+            var restify = new Restify(startup);
+            var server = restify.CreateServer();
+            server.Route(
+               "GET",
+               "/TestRoute",
+               request => {
+                   var ret = "123";
+                   return ret;
+               }
+            );
+        });
+
+        var client = new HttpClient();
+        client.GetStringAsync("http://localhost:8080/TestRoute").Result.ShouldEqual("\"123\"");
+    }
+    
+    [Test]
+    public void TestRouteWithParams()
+    {
+        WebApp.Start(new StartOptions { Port = 8080 }, startup =>
+        {
+            var restify = new Restify(startup);
+            var server = restify.CreateServer();
+            server.Route(
+               "GET",
+               "/TestRoute",
+               request =>
+               {
+                   request.GetParams();
+                   var ret = "123";
+                   return ret;
+               }
+            );
+        });
+
+        var client = new HttpClient();
+        client.GetStringAsync("http://localhost:8080/TestRoute").Result.ShouldEqual("\"123\"");
+    }
+
 
     /*[Test]
     public void TestMethod3() {

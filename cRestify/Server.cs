@@ -52,12 +52,15 @@ namespace cRestify {
 
     private readonly IDictionary<string, Environment> resources;
 
+    private readonly IDictionary<string, CRestifyRoute> cRestifyRoutes;
+
     public Server(IAppBuilder app) {
       this.app = app;
       this.route = new Router();
       this.jsonSerializer = new JsonNetSerializer();
       this.urlParser = new UrlParser();
       this.resources = new Dictionary<string, Environment>();
+      this.cRestifyRoutes = new Dictionary<string, CRestifyRoute>();
     }
 
     private object ConvertParam(string name, string value, MethodInfo method) {
@@ -203,6 +206,44 @@ namespace cRestify {
       resources.Add(resourceName, resource);
       actEnvironment(resource);
       createHandler<T>();
+    }
+
+
+    public void Route(string method, string path, Func<CRestifyRequest, object> expr) {
+        var route = new CRestifyRoute { Method = method, Path = path, Expr = expr };
+        cRestifyRoutes.Add(route.ToString(), route);
+        createHandlerRoute();
+    }
+
+    public void createHandlerRoute() {
+        app.Run(context =>
+        {
+            var key = context.Request.Method + ":"+ context.Request.Uri.AbsolutePath;
+            CRestifyRoute route;
+            if (!cRestifyRoutes.TryGetValue(key, out route))
+            {
+                throw new Exception("Invalid Uri");
+            }
+
+            var parameters = GetRequestParameters(context.Request);
+
+            if (route.Expr != null)
+            {
+                var res = route.Expr(CRestifyRequest.Factory(context.Request));
+                context.Response.StatusCode = 200;
+                context.Response.WriteAsync(jsonSerializer.Serialize(res));
+            }
+            else {
+                throw new Exception("implementar!!");
+            }
+            
+            return Task.Delay(0);
+
+        });
+    }
+
+    public object[] GetRequestParameters(IOwinRequest request) {
+        return null;//
     }
 
 
