@@ -22,3 +22,5 @@ server.listen(8080, env=> {
 
 
 http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
+
+http://restfulwebapplessonsvision.blogspot.com.br/2014/06/emberjs-sailsjs-postgresql-end-to-end.html
