@@ -6,6 +6,7 @@ using Microsoft.Owin.Hosting;
 using System.Net.Http;
 using System.Linq.Expressions;
 using Owin;
+using System.Dynamic;
 
 namespace CHapi
 {

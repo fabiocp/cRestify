@@ -31,5 +31,29 @@ namespace cRestifyTest
             client.GetStringAsync("http://localhost:8000/helloWord").Result.ShouldEqual("\"hello world\"");
         }
 
+        public void Test2()
+        {
+            var server = new CHapi.Server();
+            server.Connection(
+                host: "localhost",
+                port: 8001
+            );
+
+            // Add the route
+            server.Route(
+                method: CHapi.HttpMethod.Get,
+                path: "/testparams/{id}/{nome}",
+                handler: request => "ola " + request.Params.name + " ("+request.Params.id+")"
+            );
+
+            // Start the server
+            server.Start();
+
+            var client = new HttpClient();
+            client.GetStringAsync("http://localhost:8000/testeparams/1/juca").Result.ShouldEqual("\"ola juca (1)\"");
+        }
+
+
+
     }
 }
