@@ -14,7 +14,7 @@ namespace cRestifyTest
             var server = new CHapi.Server();
             server.Connection(
                 host: "localhost",
-                port: 8000
+                port: 8001
             );
 
             // Add the route
@@ -28,7 +28,8 @@ namespace cRestifyTest
             server.Start();
 
             var client = new HttpClient();
-            client.GetStringAsync("http://localhost:8080/helloWord").Result.ShouldEqual("\"hello world\"");
+            client.GetStringAsync("http://localhost:8000/helloWord").Result.ShouldEqual("\"hello world\"");
         }
+
     }
 }
